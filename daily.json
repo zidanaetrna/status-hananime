@@ -1,31 +1,31 @@
 {
  "web": {
   "2026-11-15": {
-   "checks": 1,
+   "checks": 2,
    "fails": 0
   }
  },
  "api": {
   "2026-11-15": {
-   "checks": 1,
+   "checks": 2,
    "fails": 0
   }
  },
  "stream": {
   "2026-11-15": {
-   "checks": 1,
+   "checks": 2,
    "fails": 0
   }
  },
  "auth": {
   "2026-11-15": {
-   "checks": 1,
+   "checks": 2,
    "fails": 0
   }
  },
  "live": {
   "2026-11-15": {
-   "checks": 1,
+   "checks": 2,
    "fails": 0
   }
  }
