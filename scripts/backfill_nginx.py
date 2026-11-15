@@ -110,17 +110,38 @@ while s <= last:
         down.update(range(s, end + 1))
     s = end + 1
 
+# Every component is judged on the same slots: one where the API answered
+# normally counts as up for the others too, unless they show their own 5xx.
 for s in range(first, last + 1):
     if s in down:
         for comp in ('api', 'stream', 'auth', 'live'):
             mark(comp, s, False)
         continue
-    for comp in ('api', 'stream', 'auth', 'live'):
-        total, bad = slots[s][comp] if s in slots and comp in slots[s] else (0, 0)
+    got = slots.get(s, {})
+    api_total, api_bad = got.get('api', (0, 0))
+    if not api_total:
+        total, bad = got.get('live', (0, 0))  # before the /v1 API: the socket only
         if total:
-            mark(comp, s, bad * 2 <= total)
+            mark('live', s, bad * 2 <= total)
+        continue
+    api_ok = api_bad * 2 <= api_total
+    mark('api', s, api_ok)
+    for comp in ('stream', 'auth', 'live'):
+        total, bad = got.get(comp, (0, 0))
+        mark(comp, s, bad * 2 <= total if total else api_ok)
 
 json.dump(daily, sys.stdout, separators=(',', ':'))
+runs = []
+for x in sorted(down):
+    if runs and x == runs[-1][1] + 1:
+        runs[-1][1] = x
+    else:
+        runs.append([x, x])
+print(file=sys.stderr)
+print('Rentang tanpa jawaban server (WIB):', file=sys.stderr)
+for a_, b_ in runs:
+    start = datetime.fromtimestamp(a_ * SLOT, WIB)
+    print(f'  {start:%Y-%m-%d %H:%M}  {(b_ - a_ + 1) * 5:5d} menit', file=sys.stderr)
 print(file=sys.stderr)
 for comp, days in sorted(daily.items()):
     checks = sum(d['checks'] for d in days.values())
