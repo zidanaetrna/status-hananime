@@ -71,6 +71,8 @@ jobs:
         run: |
           git add -A
           git diff --cached --quiet || git commit -q -m "data $(date -u +%Y-%m-%dT%H:%MZ)"
+          # A new data branch has nothing to save until the first check.
+          git rev-parse -q --verify HEAD >/dev/null || exit 0
           git push -q origin data
 
       - uses: actions/configure-pages@v5
