@@ -1,7 +1,7 @@
 // Emails every new incident or maintenance update to the subscribers
-// (a Resend audience) as a broadcast. Runs after build.mjs; remembers what
+// (a Resend segment) as a broadcast. Runs after build.mjs; remembers what
 // it sent in ./data/sent.json. Without RESEND_API_KEY and
-// RESEND_AUDIENCE_ID it does nothing.
+// RESEND_SEGMENT_ID it does nothing.
 //
 // The first run only records what already exists, so turning email on
 // never mails the whole history.
@@ -9,9 +9,9 @@ import { readFileSync } from 'node:fs'
 import { config, DATA, readJSON, writeJSON } from './lib.mjs'
 
 const KEY = process.env.RESEND_API_KEY
-const AUDIENCE = process.env.RESEND_AUDIENCE_ID
+const SEGMENT = process.env.RESEND_SEGMENT_ID || process.env.RESEND_AUDIENCE_ID
 const FROM = process.env.RESEND_FROM || 'Hananime Status <status@hananime.fun>'
-if (!KEY || !AUDIENCE) {
+if (!KEY || !SEGMENT) {
   console.log('notify: email not configured, skipped')
   process.exit(0)
 }
@@ -69,8 +69,7 @@ for (const i of seen.values()) {
   for (const u of [...i.updates].reverse()) {
     if (done.has(u.id)) continue
     const subject = `[Hananime] ${LABEL[u.status] || u.status}: ${i.title}`
-    const b = await resend('/broadcasts', { audience_id: AUDIENCE, from: FROM, subject, html: html(i, u), name: subject.slice(0, 120) })
-    await resend(`/broadcasts/${b.id}/send`, {})
+    await resend('/broadcasts', { segment_id: SEGMENT, from: FROM, subject, html: html(i, u), name: subject.slice(0, 120), send: true })
     done.add(u.id)
     count++
   }
