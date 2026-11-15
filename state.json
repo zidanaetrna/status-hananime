@@ -1,0 +1,57 @@
+{
+ "web": {
+  "fails": 0,
+  "passes": 1,
+  "incident": null,
+  "last": {
+   "at": "2026-11-15T15:24:04.228Z",
+   "ok": true,
+   "ms": 439,
+   "error": null
+  }
+ },
+ "api": {
+  "fails": 0,
+  "passes": 1,
+  "incident": null,
+  "last": {
+   "at": "2026-11-15T15:24:04.228Z",
+   "ok": true,
+   "ms": 431,
+   "error": null
+  }
+ },
+ "stream": {
+  "fails": 0,
+  "passes": 1,
+  "incident": null,
+  "last": {
+   "at": "2026-11-15T15:24:04.228Z",
+   "ok": true,
+   "ms": 1018,
+   "error": null
+  }
+ },
+ "auth": {
+  "fails": 0,
+  "passes": 1,
+  "incident": null,
+  "last": {
+   "at": "2026-11-15T15:24:04.228Z",
+   "ok": true,
+   "ms": 614,
+   "error": null
+  }
+ },
+ "live": {
+  "fails": 0,
+  "passes": 1,
+  "incident": null,
+  "last": {
+   "at": "2026-11-15T15:24:04.228Z",
+   "ok": true,
+   "ms": 516,
+   "error": null
+  }
+ }
+}
