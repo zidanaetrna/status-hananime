@@ -13,8 +13,9 @@ Each 5-minute slot is judged from the requests in it:
   stream  /v1/play answered mostly without 5xx
   auth    /v1/auth/* answered mostly without 5xx
   live    /ws upgrades answered mostly 101
-A slot with no API request at all, while the hour around it was busy,
-counts as down for every component (the server did not answer anyone).
+At least 30 minutes with no API request at all, while the hours around it
+were busy, count as down for every component (the server answered no one);
+shorter silences are ordinary quiet minutes and are left out.
 Slots with nothing to judge are left out.
 """
 import gzip
@@ -28,6 +29,7 @@ API_LOG = sys.argv[1] if len(sys.argv) > 1 else '/var/log/nginx/hanaminime_acces
 WS_LOG = sys.argv[2] if len(sys.argv) > 2 else '/var/log/nginx/hanaminime_ws_access.log'
 DAYS = 90
 SLOT = 300
+MIN_SILENT = 6  # slots: 30 minutes
 WIB = timezone(timedelta(hours=7))
 
 LINE = re.compile(r'\[(\d{2}/\w{3}/\d{4}:\d{2}:\d{2}:\d{2} [+-]\d{4})\] "(\w+) (\S+)[^"]*" (\d{3})')
@@ -106,7 +108,9 @@ while s <= last:
     while end + 1 <= last and not api_count.get(end + 1, 0):
         end += 1
     edges = [api_count.get(x, 0) for x in list(range(s - 12, s)) + list(range(end + 1, end + 13))]
-    if sum(1 for n in edges if n > 0) >= 20 and sum(edges) / len(edges) >= 4:
+    # Traffic is bursty: minutes of silence are normal. Only a long one
+    # amid busy hours is an outage.
+    if end - s + 1 >= MIN_SILENT and sum(1 for n in edges if n > 0) >= 20 and sum(edges) / len(edges) >= 4:
         down.update(range(s, end + 1))
     s = end + 1
 
