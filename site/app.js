@@ -152,3 +152,14 @@ $('sub').addEventListener('submit', async (e) => {
     btn.disabled = false
   }
 })
+
+// Back from the confirmation link.
+{
+  const q = new URLSearchParams(location.search).get('langganan')
+  const text = { ok: ['Langganan aktif. Kamu akan menerima email saat ada gangguan.', 'var(--ok)'], kedaluwarsa: ['Link konfirmasi tidak valid atau sudah kedaluwarsa. Daftar ulang di atas.', ''], gagal: ['Konfirmasi gagal disimpan. Coba lagi nanti.', ''] }[q]
+  if (text) {
+    $('sub-msg').textContent = text[0]
+    $('sub-msg').style.color = text[1]
+    history.replaceState(null, '', location.pathname + '#langganan')
+  }
+}
