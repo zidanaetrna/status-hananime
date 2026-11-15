@@ -131,15 +131,32 @@ async function load() {
 load()
 setInterval(load, 60_000)
 
+// Cloudflare Turnstile: the API checks the token with Cloudflare.
+const TURNSTILE_KEY = '0x4AAAAAAFs41nwIGHkeOA4y'
+let human = null, widget = null
+window.onTurnstile = () => {
+  widget = turnstile.render('#turnstile', {
+    sitekey: TURNSTILE_KEY, theme: 'dark', size: 'flexible', language: 'id',
+    callback: (t) => { human = t },
+    'expired-callback': () => { human = null },
+    'error-callback': () => { human = null },
+  })
+}
+
 // Subscribing: the API mails a confirmation link (double opt-in).
 $('sub').addEventListener('submit', async (e) => {
   e.preventDefault()
   const btn = e.target.querySelector('button'), msg = $('sub-msg')
   const email = e.target.email.value.trim()
+  if (!human) {
+    msg.style.color = ''
+    msg.textContent = 'Tunggu verifikasi di bawah selesai dulu.'
+    return
+  }
   btn.disabled = true
   msg.textContent = ''
   try {
-    const res = await fetch(`${API}/v1/status/subscribe`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ email }) })
+    const res = await fetch(`${API}/v1/status/subscribe`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ email, token: human }) })
     const body = await res.json().catch(() => ({}))
     if (!res.ok) throw new Error(body.error || 'Gagal mendaftar. Coba lagi nanti.')
     msg.style.color = 'var(--ok)'
@@ -150,6 +167,9 @@ $('sub').addEventListener('submit', async (e) => {
     msg.textContent = err.message === 'Failed to fetch' ? 'Langganan sedang tidak bisa dihubungi. Coba lagi nanti.' : err.message
   } finally {
     btn.disabled = false
+    // A token is good for one check: get a fresh one for the next try.
+    human = null
+    if (widget !== null) turnstile.reset(widget)
   }
 })
 

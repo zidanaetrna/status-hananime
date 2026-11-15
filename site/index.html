@@ -44,6 +44,7 @@
       <input type="email" name="email" required placeholder="nama@gmail.com" aria-label="Email" autocomplete="email">
       <button class="btn primary" type="submit">Kirim link konfirmasi</button>
     </form>
+    <div id="turnstile" class="ts"></div>
     <div class="err" id="sub-msg" role="status"></div>
     <div class="fine">Berhenti kapan saja lewat tautan di setiap email.</div>
   </section>
@@ -54,5 +55,6 @@
   </footer>
 </div>
 <script src="app.js"></script>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onTurnstile&render=explicit" async defer></script>
 </body>
 </html>
