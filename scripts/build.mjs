@@ -4,7 +4,7 @@
 // Only issues and comments by the repository's owner, members,
 // collaborators or the workflow's bot count: the repository is public and
 // anyone may open an issue or comment, but nobody else writes on the page.
-import { cpSync, rmSync, writeFileSync } from 'node:fs'
+import { cpSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { config, DATA, readJSON, writeJSON, dayKey, ghAll, REPO } from './lib.mjs'
 
 const OUT = '_site'
@@ -126,5 +126,9 @@ writeJSON(`${OUT}/status.json`, {
 
 rmSync(`${OUT}/index.html`, { force: true })
 cpSync('site', OUT, { recursive: true })
+// Each deploy's assets get their own URL: the CDN in front keeps old copies.
+const version = (process.env.GITHUB_SHA || String(Date.now())).slice(0, 12)
+const page = readFileSync(`${OUT}/index.html`, 'utf8').replace(/(href="style\.css|src="app\.js)"/g, `$1?v=${version}"`)
+writeFileSync(`${OUT}/index.html`, page)
 writeFileSync(`${OUT}/CNAME`, new URL(config.site).host + '\n')
 console.log(`built: ${components.length} components, ${active.length} active, ${maintenance.length} maintenance, ${issues.length} issues`)
