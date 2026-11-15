@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Status Hananime</title>
+<meta name="description" content="Status layanan Hananime: website, API, streaming, login, dan notifikasi.">
+<meta name="theme-color" content="#0d0d0f">
+<link rel="icon" href="https://hananime.fun/logo-96.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Noto+Sans+JP:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap" id="app">
+  <header>
+    <a class="brand" href="https://hananime.fun">
+      <img src="https://hananime.fun/logo-96.png" alt="">
+      <b>Hananime</b><span class="tag">status</span>
+    </a>
+    <a class="btn" href="#langganan">Langganan update</a>
+  </header>
+
+  <div class="verdict" id="verdict"><div class="jp">稼働状況</div><h1>Memuat status…</h1></div>
+
+  <section id="now" hidden></section>
+
+  <section>
+    <div class="eyebrow"><span>Komponen</span><span>Uptime 90 hari</span></div>
+    <div id="comps"></div>
+    <div class="scale"><span>90 hari lalu</span><span>Hari ini</span></div>
+  </section>
+
+  <section>
+    <div class="eyebrow"><span>Riwayat</span><span>14 hari terakhir</span></div>
+    <div id="history"></div>
+  </section>
+
+  <section id="langganan">
+    <div class="eyebrow"><span>Langganan update</span></div>
+    <p style="margin:0 0 4px;color:var(--ink-200)">Kami kirim email saat ada gangguan, update penanganannya, dan saat sudah pulih. Tidak ada email lain.</p>
+    <form class="sub" id="sub">
+      <input type="email" name="email" required placeholder="nama@gmail.com" aria-label="Email" autocomplete="email">
+      <button class="btn primary" type="submit">Kirim link konfirmasi</button>
+    </form>
+    <div class="err" id="sub-msg" role="status"></div>
+    <div class="fine">Berhenti kapan saja lewat tautan di setiap email.</div>
+  </section>
+
+  <footer>
+    <span>Dipantau dari luar server Hananime, tiap 5 menit.</span>
+    <span><a href="https://github.com/zidanaetrna/status-hananime">Sumber</a> &nbsp;·&nbsp; <a href="https://hananime.fun">Kembali ke hananime.fun</a></span>
+  </footer>
+</div>
+<script src="app.js"></script>
+</body>
+</html>

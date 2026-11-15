@@ -1,0 +1,16 @@
+{
+  "site": "https://status.hananime.fun",
+  "main": "https://hananime.fun",
+  "api": "https://api.hananime.fun",
+  "intervalMinutes": 5,
+  "openAfterFails": 3,
+  "closeAfterPasses": 2,
+  "historyDays": 90,
+  "components": [
+    { "id": "web", "name": "Website", "sub": "hananime.fun" },
+    { "id": "api", "name": "API dan katalog", "sub": "api.hananime.fun" },
+    { "id": "stream", "name": "Streaming", "sub": "pemutar dan sumber video" },
+    { "id": "auth", "name": "Login dan akun", "sub": "masuk, daftar, sinkron" },
+    { "id": "live", "name": "Komentar dan notifikasi", "sub": "realtime, push" }
+  ]
+}

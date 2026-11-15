@@ -1,0 +1,81 @@
+name: status
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+  # An incident or maintenance written or updated by hand shows at once.
+  issues:
+    types: [opened, edited, closed, reopened, labeled, unlabeled, deleted]
+  issue_comment:
+    types: [created, edited, deleted]
+  push:
+    branches: [main]
+
+# One run at a time: every run writes the data branch.
+concurrency:
+  group: status
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  issues: write
+  pages: write
+  id-token: write
+
+jobs:
+  status:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+
+      # Check results live on the `data` branch, kept out of main's history.
+      - name: Check out data
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          if git ls-remote --exit-code --heads origin data >/dev/null; then
+            git fetch --depth=1 origin data:data
+            git worktree add data data
+          else
+            git worktree add --orphan -b data data
+          fi
+
+      - name: Check
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        run: node scripts/check.mjs
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
+      - name: Build
+        run: node scripts/build.mjs
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
+      - name: Email subscribers
+        run: node scripts/notify.mjs
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          RESEND_AUDIENCE_ID: ${{ secrets.RESEND_AUDIENCE_ID }}
+
+      - name: Save data
+        working-directory: data
+        run: |
+          git add -A
+          git diff --cached --quiet || git commit -q -m "data $(date -u +%Y-%m-%dT%H:%MZ)"
+          git push -q origin data
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+      - id: deploy
+        uses: actions/deploy-pages@v4
