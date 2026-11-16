@@ -2,7 +2,7 @@
 
 Halaman status Hananime di [status.hananime.fun](https://status.hananime.fun).
 
-- **Monitor**: GitHub Actions mengecek Website, API dan katalog, Streaming, Login dan akun, serta Komentar dan notifikasi tiap 5 menit, dari luar server Hananime (`scripts/check.mjs`).
+- **Monitor**: GitHub Actions mengecek Website, API dan katalog, Streaming, Login dan akun, serta Komentar dan notifikasi tiap 5 menit, dari luar server Hananime (`scripts/check.mjs`). Jadwal cron GitHub sering telat berjam-jam, jadi tiap run memicu run berikutnya sendiri 5 menit setelah ia mulai; cron hanya cadangan kalau rantainya putus.
 - **Insiden otomatis**: gagal 3 kali berturut-turut membuka issue `incident` + `auto`; sukses 2 kali berturut-turut menutupnya sebagai Resolved.
 - **Halaman**: `scripts/build.mjs` menggabungkan hasil cek (branch `data`) dan issue jadi `status.json`, lalu GitHub Pages menyajikan folder `site/`.
 - **Email**: `scripts/notify.mjs` mengirim tiap update insiden ke pelanggan (segment di Resend), kalau secret `RESEND_API_KEY` dan `RESEND_SEGMENT_ID` diisi.

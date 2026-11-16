@@ -1,6 +1,9 @@
 name: status
 
 on:
+  # GitHub runs a schedule when it has room: on a quiet repository a */5
+  # cron fires hours apart. Each run therefore starts the next one itself
+  # (see "Next run"); the schedule only restarts that chain if it breaks.
   schedule:
     - cron: '*/5 * * * *'
   workflow_dispatch:
@@ -18,6 +21,7 @@ concurrency:
   cancel-in-progress: false
 
 permissions:
+  actions: write # "Next run" starts this workflow again
   contents: write
   issues: write
   pages: write
@@ -31,6 +35,9 @@ jobs:
       name: github-pages
       url: ${{ steps.deploy.outputs.page_url }}
     steps:
+      - name: Note the start
+        run: echo "STARTED=$(date +%s)" >> "$GITHUB_ENV"
+
       - uses: actions/checkout@v5
 
       - uses: actions/setup-node@v5
@@ -82,3 +89,16 @@ jobs:
           path: _site
       - id: deploy
         uses: actions/deploy-pages@v4
+
+      # Five minutes after this run began, start the next one: whatever
+      # started this run (the chain, the schedule, an issue, a push) and
+      # however it ended. While a run waits for its turn, a newer one takes
+      # its place (concurrency), so the chains never multiply.
+      - name: Next run
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          left=$(( STARTED + 300 - $(date +%s) ))
+          if [ "$left" -gt 0 ]; then sleep "$left"; fi
+          gh workflow run status.yml --ref main -R "$GITHUB_REPOSITORY"
