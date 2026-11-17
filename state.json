@@ -1,56 +1,56 @@
 {
  "web": {
   "fails": 0,
-  "passes": 483,
+  "passes": 484,
   "incident": null,
   "last": {
-   "at": "2026-11-17T23:16:24.338Z",
+   "at": "2026-11-17T23:21:38.388Z",
    "ok": true,
-   "ms": 477,
+   "ms": 301,
    "error": null
   }
  },
  "api": {
   "fails": 0,
-  "passes": 483,
+  "passes": 484,
   "incident": null,
   "last": {
-   "at": "2026-11-17T23:16:24.338Z",
-   "ok": true,
-   "ms": 445,
-   "error": null
-  }
- },
- "stream": {
-  "fails": 0,
-  "passes": 313,
-  "incident": null,
-  "last": {
-   "at": "2026-11-17T23:16:24.338Z",
-   "ok": true,
-   "ms": 816,
-   "error": null
-  }
- },
- "auth": {
-  "fails": 0,
-  "passes": 285,
-  "incident": null,
-  "last": {
-   "at": "2026-11-17T23:16:24.338Z",
+   "at": "2026-11-17T23:21:38.388Z",
    "ok": true,
    "ms": 628,
    "error": null
   }
  },
- "live": {
+ "stream": {
   "fails": 0,
-  "passes": 483,
+  "passes": 314,
   "incident": null,
   "last": {
-   "at": "2026-11-17T23:16:24.338Z",
+   "at": "2026-11-17T23:21:38.388Z",
    "ok": true,
-   "ms": 481,
+   "ms": 2005,
+   "error": null
+  }
+ },
+ "auth": {
+  "fails": 0,
+  "passes": 286,
+  "incident": null,
+  "last": {
+   "at": "2026-11-17T23:21:38.388Z",
+   "ok": true,
+   "ms": 674,
+   "error": null
+  }
+ },
+ "live": {
+  "fails": 0,
+  "passes": 484,
+  "incident": null,
+  "last": {
+   "at": "2026-11-17T23:21:38.388Z",
+   "ok": true,
+   "ms": 580,
    "error": null
   }
  }
