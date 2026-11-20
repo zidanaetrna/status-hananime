@@ -1,56 +1,56 @@
 {
  "web": {
   "fails": 0,
-  "passes": 1204,
+  "passes": 1205,
   "incident": null,
   "last": {
-   "at": "2026-11-20T14:06:15.339Z",
+   "at": "2026-11-20T14:11:27.889Z",
    "ok": true,
-   "ms": 397,
+   "ms": 359,
    "error": null
   }
  },
  "api": {
   "fails": 0,
-  "passes": 1204,
+  "passes": 1205,
   "incident": null,
   "last": {
-   "at": "2026-11-20T14:06:15.339Z",
+   "at": "2026-11-20T14:11:27.889Z",
    "ok": true,
-   "ms": 499,
+   "ms": 450,
    "error": null
   }
  },
  "stream": {
-  "fails": 0,
-  "passes": 1034,
+  "fails": 1,
+  "passes": 0,
   "incident": null,
   "last": {
-   "at": "2026-11-20T14:06:15.339Z",
-   "ok": true,
-   "ms": 978,
-   "error": null
+   "at": "2026-11-20T14:11:27.889Z",
+   "ok": false,
+   "ms": 36110,
+   "error": "The operation was aborted due to timeout"
   }
  },
  "auth": {
   "fails": 0,
-  "passes": 1006,
+  "passes": 1007,
   "incident": null,
   "last": {
-   "at": "2026-11-20T14:06:15.339Z",
+   "at": "2026-11-20T14:11:27.889Z",
    "ok": true,
-   "ms": 757,
+   "ms": 642,
    "error": null
   }
  },
  "live": {
   "fails": 0,
-  "passes": 1204,
+  "passes": 1205,
   "incident": null,
   "last": {
-   "at": "2026-11-20T14:06:15.339Z",
+   "at": "2026-11-20T14:11:27.889Z",
    "ok": true,
-   "ms": 467,
+   "ms": 411,
    "error": null
   }
  }
