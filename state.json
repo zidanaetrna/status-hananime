@@ -1,56 +1,56 @@
 {
  "web": {
   "fails": 0,
-  "passes": 1441,
+  "passes": 1442,
   "incident": null,
   "last": {
-   "at": "2026-11-21T10:44:06.129Z",
+   "at": "2026-11-21T10:49:17.657Z",
    "ok": true,
-   "ms": 281,
+   "ms": 183,
    "error": null
   }
  },
  "api": {
   "fails": 0,
-  "passes": 1441,
+  "passes": 1442,
   "incident": null,
   "last": {
-   "at": "2026-11-21T10:44:06.129Z",
+   "at": "2026-11-21T10:49:17.657Z",
    "ok": true,
-   "ms": 623,
+   "ms": 335,
    "error": null
   }
  },
  "stream": {
-  "fails": 2,
+  "fails": 3,
   "passes": 0,
-  "incident": null,
+  "incident": 1,
   "last": {
-   "at": "2026-11-21T10:44:06.129Z",
+   "at": "2026-11-21T10:49:17.657Z",
    "ok": false,
-   "ms": 6234,
+   "ms": 6123,
    "error": "https://api.hananime.fun/v1/episode/keroro-gunsou%25e2%2598%2586-2026-episode-08-subtitle-indonesia → 404"
   }
  },
  "auth": {
   "fails": 0,
-  "passes": 1243,
+  "passes": 1244,
   "incident": null,
   "last": {
-   "at": "2026-11-21T10:44:06.129Z",
+   "at": "2026-11-21T10:49:17.657Z",
    "ok": true,
-   "ms": 665,
+   "ms": 423,
    "error": null
   }
  },
  "live": {
   "fails": 0,
-  "passes": 1441,
+  "passes": 1442,
   "incident": null,
   "last": {
-   "at": "2026-11-21T10:44:06.129Z",
+   "at": "2026-11-21T10:49:17.657Z",
    "ok": true,
-   "ms": 632,
+   "ms": 345,
    "error": null
   }
  }
